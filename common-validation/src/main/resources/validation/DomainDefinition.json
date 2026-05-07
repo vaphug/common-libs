@@ -1,0 +1,32 @@
+{
+  "論理削除": {
+    "maxLength": "50",
+    "type": "String",
+    "kind": "stringAllowFullHalfWidth"
+  },
+  "登録ユーザID": {
+    "maxLength": "30",
+    "type": "String",
+    "kind": "stringHalfWidthOnly"
+  },
+  "登録日時": {
+    "maxLength": "500",
+    "type": "String",
+    "kind": "stringFullWidthOnly"
+  },
+  "更新ユーザID": {
+    "maxLength": "13,8",
+    "type": "String",
+    "kind": "numeric"
+  },
+  "更新日時": {
+    "maxLength": "14",
+    "type": "String",
+    "kind": "numericAllowMinus"
+  },
+  "処理機能ID": {
+    "maxLength": "20",
+    "type": "String",
+    "kind": "stringDigitsOnly"
+  }
+}

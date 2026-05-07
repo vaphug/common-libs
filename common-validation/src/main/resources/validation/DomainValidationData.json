@@ -1,0 +1,116 @@
+{
+  "textAny": {
+    "type": "String",
+    "kind": "stringAllowFullHalfWidth",
+    "maxLength": "50",
+    "messageId": "validation.text.any"
+  },
+  "textHalfWidth": {
+    "type": "String",
+    "kind": "stringHalfWidthOnly",
+    "maxLength": "30",
+    "messageId": "validation.text.halfwidth"
+  },
+  "textFullWidth": {
+    "type": "String",
+    "kind": "stringFullWidthOnly",
+    "maxLength": "50",
+    "messageId": "validation.text.fullwidth"
+  },
+  "textFullAndHalf": {
+    "type": "String",
+    "kind": "stringFullAndHalfWidth",
+    "maxLength": "50",
+    "messageId": "validation.text.fullandhalf"
+  },
+  "number": {
+    "type": "String",
+    "kind": "numeric",
+    "maxLength": "13,8",
+    "messageId": "validation.number"
+  },
+  "numberWithMinus": {
+    "type": "String",
+    "kind": "numericAllowMinus",
+    "maxLength": "13,8",
+    "messageId": "validation.number.minus"
+  },
+  "digitsOnly": {
+    "type": "String",
+    "kind": "stringDigitsOnly",
+    "maxLength": "20",
+    "messageId": "validation.digits.only"
+  },
+  "amount": {
+    "type": "String",
+    "kind": "amount",
+    "maxLength": "12",
+    "messageId": "validation.amount"
+  },
+  "amountWithMinus": {
+    "type": "String",
+    "kind": "amountAllowMinus",
+    "maxLength": "12",
+    "messageId": "validation.amount.minus"
+  },
+  "amountMinusOnly": {
+    "type": "String",
+    "kind": "amountMinusOnly",
+    "maxLength": "12",
+    "messageId": "validation.amount.minus.only"
+  },
+  "numberGtZero": {
+    "type": "String",
+    "kind": "numericPositive",
+    "maxLength": "13,8",
+    "messageId": "validation.number.gt.zero"
+  },
+  "amountGtZero": {
+    "type": "String",
+    "kind": "amountPositive",
+    "maxLength": "12",
+    "messageId": "validation.amount.gt.zero"
+  },
+  "dateYyyy": {
+    "type": "String",
+    "kind": "dateYYYY",
+    "maxLength": "4",
+    "messageId": "validation.date.yyyy"
+  },
+  "dateYyyymm": {
+    "type": "String",
+    "kind": "dateYYYYMM",
+    "maxLength": "6",
+    "messageId": "validation.date.yyyymm"
+  },
+  "dateYyyymmdd": {
+    "type": "String",
+    "kind": "dateYYYYMMDD",
+    "maxLength": "8",
+    "messageId": "validation.date.yyyymmdd"
+  },
+  "dateTime": {
+    "type": "String",
+    "kind": "datetime",
+    "maxLength": "12",
+    "messageId": "validation.datetime"
+  },
+  "category": {
+    "type": "String",
+    "kind": "category",
+    "maxLength": "1",
+    "messageId": "validation.category.invalid",
+    "params": {
+      "allowed": "1,2,3"
+    }
+  },
+  "currency": {
+    "type": "String",
+    "kind": "amountPositive",
+    "maxLength": "12",
+    "messageId": "validation.currency.positive",
+    "params": {
+      "allowed": "1,5,10,50,100,500,1000"
+    }
+  }
+}

@@ -1,4 +1,6 @@
-package com.yourdomain.common.validation;
+package com.yourdomain.common.validation.annotation;
+
+import com.yourdomain.common.validation.constraint.PhoneNumberValidator;
 
 import com.yourdomain.common.messages.MessageConstants;
 import jakarta.validation.Constraint;

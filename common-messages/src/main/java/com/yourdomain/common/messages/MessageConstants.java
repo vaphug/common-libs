@@ -22,4 +22,13 @@ public final class MessageConstants {
     // Các key phục vụ nghiệp vụ SQS (có thể được override bởi module consumer nếu cần).
     public static final String SQS_SEND_FAILED = "sqs.send.failed";
     public static final String SQS_QUEUE_NOT_FOUND = "sqs.queue.not.found";
+
+    // Các key cho ItemValidate (validation theo rule data-driven từ JSON).
+    public static final String VALIDATION_ITEM_INVALID = "validation.item.invalid";
+    public static final String VALIDATION_CURRENCY_POSITIVE = "validation.currency.positive";
+    public static final String VALIDATION_CURRENCY_DENOMINATION = "validation.currency.denomination";
+    public static final String VALIDATION_FULLWIDTH_REQUIRED = "validation.fullwidth.required";
+    public static final String VALIDATION_HALFWIDTH_REQUIRED = "validation.halfwidth.required";
+    public static final String VALIDATION_FULL_AND_HALF_REQUIRED = "validation.fullandhalf.required";
+    public static final String VALIDATION_DECIMAL_REQUIRED = "validation.decimal.required";
 }

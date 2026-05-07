@@ -1,0 +1,26 @@
+package com.yourdomain.common.validation.validator;
+
+public enum ValidationType {
+    ANY_TEXT,
+    FULL_WIDTH,
+    HALF_WIDTH,
+    FULL_AND_HALF_WIDTH,
+    DIGITS_ONLY,
+    NUMBER,
+    NUMBER_WITH_MINUS,
+    NUMBER_GT_ZERO,
+    AMOUNT,
+    AMOUNT_WITH_MINUS,
+    AMOUNT_MINUS_ONLY,
+    AMOUNT_GT_ZERO,
+    POSITIVE_NUMBER,
+    NEGATIVE_NUMBER,
+    DECIMAL_NUMBER,
+    MONEY_DENOMINATION,
+    DATE_YYYY,
+    DATE_YYYYMM,
+    DATE_YYYYMMDD,
+    DATETIME_YYYYMMDDHHMM,
+    ENUM_IN_SET,
+    REQUIRED
+}

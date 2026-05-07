@@ -1,4 +1,6 @@
-package com.yourdomain.common.validation;
+package com.yourdomain.common.validation.annotation;
+
+import com.yourdomain.common.validation.constraint.NotBlankValidator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

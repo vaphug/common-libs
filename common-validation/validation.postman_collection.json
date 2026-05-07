@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "7b43a330-a547-4219-8912-f0725984b413",
+    "name": "common-libs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "10272054"
+  },
+  "item": [
+    {
+      "name": "http://localhost:8092/api/phones/validate",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "vi"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"phoneNumber\": \"0912345678\",\n    \"textAny\": \"abc漢字123\",\n    \"textHalfWidth\": \"abc漢字\",\n    \"textFullWidth\": \"abc\",\n    \"textFullAndHalf\": \"あいう\",\n    \"number\": \"-100\",\n    \"numberWithMinus\": \"-12.34\",\n    \"digitsOnly\": \"12a3\",\n    \"amount\": \"1000.5\",\n    \"amountWithMinus\": \"-1000\",\n    \"amountMinusOnly\": \"100\",\n    \"numberGtZero\": \"0\",\n    \"amountGtZero\": \"0\",\n    \"dateYyyy\": \"20a6\",\n    \"dateYyyymm\": \"202613\",\n    \"dateYyyymmdd\": \"20230229\",\n    \"dateTime\": \"202605062460\",\n    \"category\": \"99\",\n    \"currency\": \"-10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8092/api/phones/validate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8092",
+          "path": [
+            "api",
+            "phones",
+            "validate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8091/api/phones/validate",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "vi"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"phoneNumber\": \"0912345678\",\n    \"textHalfWidth\": \"abc漢字\",\n    \"textFullWidth\": \"abc\",\n    \"number\": \"-100\",\n    \"dateYyyymmdd\": \"20230229\",\n    \"category\": \"99\",\n    \"currency\": \"-10\",\n    \"halfWidthDirect\": \"漢字\",\n    \"fullWidthDirect\": \"abc\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8093/api/phones/validate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8093",
+          "path": [
+            "api",
+            "phones",
+            "validate"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST 'http://localhost:8091/api/phones/validate' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Accept-Language: vi' \\\n  -d '{\n    \"phoneNumber\":\"0912345678\",\n    \"textAny\":\"abc漢字123\",\n    \"textHalfWidth\":\"abc漢字\",\n    \"textFullWidth\":\"abc\",\n    \"textFullAndHalf\":\"あいう\",\n    \"number\":\"-100\",\n    \"numberWithMinus\":\"-12.34\",\n    \"digitsOnly\":\"12a3\",\n    \"amount\":\"1000.5\",\n    \"amountWithMinus\":\"-1000\",\n    \"amountMinusOnly\":\"100\",\n    \"numberGtZero\":\"0\",\n    \"amountGtZero\":\"0\",\n    \"dateYyyy\":\"20a6\",\n    \"dateYyyymm\":\"202613\",\n    \"dateYyyymmdd\":\"20230229\",\n    \"dateTime\":\"202605062460\",\n    \"category\":\"99\",\n    \"currency\":\"-10\",\n    \"halfWidthDirect\":\"漢字\",\n    \"fullWidthDirect\":\"abc\"\n  }'\n"
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8091/api/phones/validate",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "ja"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"phoneNumber\": \"0912345678\",\n    \"textAny\": \"abc漢字123\",\n    \"textHalfWidth\": \"abc123!@#\",\n    \"textFullWidth\": \"アイウ漢字\",\n    \"textFullAndHalf\": \"abc漢字\",\n    \"number\": \"12.34\",\n    \"numberWithMinus\": \"-12.34\",\n    \"digitsOnly\": \"00123\",\n    \"amount\": \"1000\",\n    \"amountWithMinus\": \"-1000\",\n    \"amountMinusOnly\": \"-1\",\n    \"numberGtZero\": \"0.01\",\n    \"amountGtZero\": \"1\",\n    \"dateYyyy\": \"2026\",\n    \"dateYyyymm\": \"202605\",\n    \"dateYyyymmdd\": \"20260506\",\n    \"dateTime\": \"202605061230\",\n    \"category\": \"1\",\n    \"currency\": \"1000\",\n    \"halfWidthDirect\": \"ABC123\",\n    \"fullWidthDirect\": \"アイウ\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8093/api/phones/validate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8093",
+          "path": [
+            "api",
+            "phones",
+            "validate"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST 'http://localhost:8091/api/phones/validate' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Accept-Language: ja' \\\n  -d '{\n    \"phoneNumber\":\"0912345678\",\n    \"textAny\":\"abc漢字123\",\n    \"textHalfWidth\":\"abc123!@#\",\n    \"textFullWidth\":\"アイウ漢字\",\n    \"textFullAndHalf\":\"abc漢字\",\n    \"number\":\"12.34\",\n    \"numberWithMinus\":\"-12.34\",\n    \"digitsOnly\":\"00123\",\n    \"amount\":\"1000\",\n    \"amountWithMinus\":\"-1000\",\n    \"amountMinusOnly\":\"-1\",\n    \"numberGtZero\":\"0.01\",\n    \"amountGtZero\":\"1\",\n    \"dateYyyy\":\"2026\",\n    \"dateYyyymm\":\"202605\",\n    \"dateYyyymmdd\":\"20260506\",\n    \"dateTime\":\"202605061230\",\n    \"category\":\"1\",\n    \"currency\":\"1000\",\n    \"halfWidthDirect\":\"ABC123\",\n    \"fullWidthDirect\":\"アイウ\"\n  }'\n"
+      },
+      "response": []
+    }
+  ]
+}
