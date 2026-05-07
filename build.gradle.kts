@@ -1,28 +1,34 @@
+import org.gradle.api.plugins.JavaPluginExtension
+
 plugins {
-	id("org.springframework.boot") version "4.0.6" apply false
+    id("org.springframework.boot") version "3.5.0" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
-    java
 }
 
 group = "com.yourdomain"
 version = "0.0.1-SNAPSHOT"
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
-}
+subprojects {
+    apply(plugin = "java-library")
 
-repositories {
-	mavenCentral()
-}
+    group = rootProject.group
+    version = rootProject.version
 
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+    configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
+    dependencies {
+        "testRuntimeOnly"("org.junit.platform:junit-platform-launcher:1.12.2")
+    }
 }

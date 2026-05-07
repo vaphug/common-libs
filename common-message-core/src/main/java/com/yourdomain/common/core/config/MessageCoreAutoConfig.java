@@ -6,12 +6,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Auto-configuration dùng chung cho hệ thống message và bean validation.
@@ -59,8 +64,10 @@ public class MessageCoreAutoConfig {
     @ConditionalOnMissingBean(MessageSource.class)
     public MessageSource messageSource(MessageCoreProperties properties) {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        // Cho phép module consumer tự khai báo thêm basenames qua common.message.basenames.
-        messageSource.setBasenames(properties.getBasenames().toArray(String[]::new));
+        // Tự scan bundle dưới i18n + cho phép app add/override qua common.message.basenames.
+        Set<String> basenames = new LinkedHashSet<>(discoverI18nBasenames());
+        basenames.addAll(properties.getBasenames());
+        messageSource.setBasenames(basenames.toArray(String[]::new));
         messageSource.setDefaultEncoding("UTF-8");
         // Locale mặc định khi không có locale từ request/context.
         messageSource.setDefaultLocale(properties.toDefaultLocale());
@@ -73,14 +80,6 @@ public class MessageCoreAutoConfig {
     /**
      * Nối MessageSource vào Bean Validation để các message key trong annotation
      * (ví dụ: {valid.phone.required}) được resolve theo locale hiện tại.
-     * LocalValidatorFactoryBean là cầu nối giữa Jakarta Bean Validation (Hibernate Validator) và Spring context.
-     * Nếu app consumer đã tự định nghĩa bean LocalValidatorFactoryBean khác thì sẽ không tạo bean này nữa (do @ConditionalOnMissingBean).
-     * LocalValidatorFactoryBean tạo ra Validator chuẩn để Spring dùng cho @Valid, @Validated.
-     * setValidationMessageSource(messageSource) bắt validator resolve message key ({valid.phone.required}) qua MessageSource của bạn, nên lấy đúng i18n từ common-messages, validation-messages.
-     * <p>
-     * @ConditionalOnMissingBean để không override nếu app consumer đã tự định nghĩa Validator riêng.
-     * @param messageSource
-     * @return LocalValidatorFactoryBean đã được gắn MessageSource để hỗ trợ i18n cho validation messages.
      */
     @Bean
     @ConditionalOnMissingBean
@@ -88,6 +87,27 @@ public class MessageCoreAutoConfig {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource);
         return bean;
+    }
+
+    private List<String> discoverI18nBasenames() {
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Set<String> discovered = new LinkedHashSet<>();
+        try {
+            Resource[] resources = resolver.getResources("classpath*:i18n/*.properties");
+            for (Resource resource : resources) {
+                String filename = resource.getFilename();
+                if (filename == null || !filename.endsWith(".properties")) {
+                    continue;
+                }
+                String baseName = filename.substring(0, filename.length() - ".properties".length());
+                // Bỏ hậu tố locale để lấy đúng basename: common-messages_vi -> common-messages
+                baseName = baseName.replaceFirst("_[a-z]{2}(_[A-Z]{2})?$", "");
+                discovered.add("classpath:i18n/" + baseName);
+            }
+        } catch (IOException ex) {
+            throw new IllegalStateException("Khong the quet i18n bundles tu classpath", ex);
+        }
+        return new ArrayList<>(discovered);
     }
 
     /**
@@ -106,12 +126,9 @@ public class MessageCoreAutoConfig {
     @ConfigurationProperties(prefix = "common.message")
     public static class MessageCoreProperties {
         /**
-         * Danh sách basename i18n để MessageSource load.
-         * Mặc định gồm bundle lõi:
-         * - classpath:i18n/common-messages
-         * - classpath:i18n/validation-messages
+         * Danh sách basename bổ sung/ghi đè ngoài phần auto-scan i18n.
          * <p>
-         * Nhờ vậy các app dùng chung không cần tự khai báo để đọc message chuẩn.
+         * Có thể để trống khi chỉ dùng cơ chế quét tự động classpath*:i18n/*.properties.
          * <p>
          * Ví dụ một phần cấu hình:
          * <p>
@@ -121,10 +138,7 @@ public class MessageCoreAutoConfig {
          *       - classpath:i18n/common-messages
          *       - classpath:i18n/sqs-messages
          */
-        private List<String> basenames = new ArrayList<>(List.of(
-                "classpath:i18n/common-messages",
-                "classpath:i18n/validation-messages"
-        ));
+        private List<String> basenames = new ArrayList<>();
         /**
          * Locale mặc định của thư viện message.
          * Dùng format BCP-47 (vi-VN) hoặc kiểu vi_VN.
