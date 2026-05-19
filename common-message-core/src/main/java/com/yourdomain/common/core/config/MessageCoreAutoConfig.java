@@ -17,6 +17,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Auto-configuration dùng chung cho hệ thống message và bean validation.
@@ -124,6 +126,8 @@ public class MessageCoreAutoConfig {
      * common.message.default-locale: vi_VN
      */
     @ConfigurationProperties(prefix = "common.message")
+    @Getter
+    @Setter
     public static class MessageCoreProperties {
         /**
          * Danh sách basename bổ sung/ghi đè ngoài phần auto-scan i18n.
@@ -145,22 +149,11 @@ public class MessageCoreAutoConfig {
          */
         private String defaultLocale = "vi_VN";
 
-        public List<String> getBasenames() {
-            return basenames;
-        }
-
-        public void setBasenames(List<String> basenames) {
-            this.basenames = basenames;
-        }
-
-        public String getDefaultLocale() {
-            return defaultLocale;
-        }
-
-        public void setDefaultLocale(String defaultLocale) {
-            this.defaultLocale = defaultLocale;
-        }
-
+        /**
+         * Chuyển chuỗi locale cấu hình sang đối tượng {@link Locale} chuẩn của Java.
+         *
+         * @return locale mặc định dùng cho message resolution
+         */
         public Locale toDefaultLocale() {
             return Locale.forLanguageTag(defaultLocale.replace('_', '-'));
         }

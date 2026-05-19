@@ -1,0 +1,2 @@
+com.yourdomain.common.database.config.CommonDatabaseAutoConfiguration
+com.yourdomain.common.database.config.CommonDatabaseBeansConfiguration

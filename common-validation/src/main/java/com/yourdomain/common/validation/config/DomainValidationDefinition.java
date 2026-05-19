@@ -4,9 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yourdomain.common.validation.validator.MaxLengthConstraint;
 import com.yourdomain.common.validation.validator.ValidationKind;
-
 import java.util.Map;
+import lombok.Getter;
 
+/**
+ * Định nghĩa một rule validation được nạp từ file cấu hình domain validation.
+ *
+ * <p>Mỗi record mô tả loại dữ liệu cần kiểm tra, kiểu validation, thông điệp lỗi, và
+ * các tham số bổ sung phục vụ cho validator runtime.
+ */
+@Getter
 public class DomainValidationDefinition {
     private final String type;
     private final ValidationKind kind;
@@ -29,29 +36,5 @@ public class DomainValidationDefinition {
         this.messageId = messageId;
         this.params = params == null ? Map.of() : params;
         this.maxLengthConstraint = MaxLengthConstraint.parse(maxLength);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public ValidationKind getKind() {
-        return kind;
-    }
-
-    public String getMaxLength() {
-        return maxLength;
-    }
-
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public Map<String, String> getParams() {
-        return params;
-    }
-
-    public MaxLengthConstraint getMaxLengthConstraint() {
-        return maxLengthConstraint;
     }
 }

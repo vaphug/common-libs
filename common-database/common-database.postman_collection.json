@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "e2a4e8e2-a15d-4b2f-95f8-3f4729807ec7",
+    "name": "common-database API Test",
+    "description": "Collection mẫu để test service tích hợp common-database (CRUD, soft delete, recycle-bin, restore, hard delete, optimistic/pessimistic lock).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Insert Order",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actor\": \"api-user\",\n  \"fields\": {\n    \"id\": 10001,\n    \"order_code\": \"ORD-10001\",\n    \"status\": \"NEW\",\n    \"table_number\": 1\n  }\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders"
+      }
+    },
+    {
+      "name": "02 - Find By Id (No Lock)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}?lockMode=NONE&includeDeleted=false"
+      }
+    },
+    {
+      "name": "03 - Find By Id (Pessimistic Read)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}?lockMode=PESSIMISTIC_READ&includeDeleted=false"
+      }
+    },
+    {
+      "name": "04 - Find By Id (Pessimistic Write)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}?lockMode=PESSIMISTIC_WRITE&includeDeleted=false"
+      }
+    },
+    {
+      "name": "04.1 - Hold Share Lock (Session A)",
+      "request": {
+        "method": "GET",
+        "description": "Giữ FOR SHARE trong transaction để test concurrent lock.",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}/lock/share?holdSeconds={{holdSeconds}}&includeDeleted=false"
+      }
+    },
+    {
+      "name": "04.2 - Hold Update Lock (Session A)",
+      "request": {
+        "method": "GET",
+        "description": "Giữ FOR UPDATE trong transaction để test concurrent lock.",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}/lock/update?holdSeconds={{holdSeconds}}&includeDeleted=false"
+      }
+    },
+    {
+      "name": "04.3 - Try Update While Locking (Session B)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actor\": \"session-b\",\n  \"fields\": {\n    \"status\": \"LOCK_TEST\"\n  }\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}"
+      }
+    },
+    {
+      "name": "05 - Update Order (Optimistic Lock by modifiedAt)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actor\": \"api-user\",\n  \"expectedModifiedAt\": \"{{expectedModifiedAt}}\",\n  \"fields\": {\n    \"status\": \"PAID\"\n  }\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}"
+      }
+    },
+    {
+      "name": "06 - Search Active",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equalsFilters\": {\n    \"status\": \"PAID\"\n  },\n  \"offset\": 0,\n  \"limit\": 20,\n  \"includeDeleted\": false\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/search"
+      }
+    },
+    {
+      "name": "07 - Soft Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actor\": \"api-user\"\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}/soft"
+      }
+    },
+    {
+      "name": "08 - Search Recycle Bin",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equalsFilters\": {},\n  \"offset\": 0,\n  \"limit\": 20,\n  \"includeDeleted\": true\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/search"
+      }
+    },
+    {
+      "name": "09 - Restore",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actor\": \"api-user\"\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}/restore"
+      }
+    },
+    {
+      "name": "10 - Hard Delete",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/orders/{{id}}/hard"
+      }
+    },
+    {
+      "name": "11 - Cleanup Recycle Bin (Retention)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cutoff\": \"{{cutoff}}\"\n}"
+        },
+        "url": "{{baseUrl}}/api/v1/orders/recycle-bin/cleanup"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8093" },
+    { "key": "id", "value": "10001" },
+    { "key": "expectedModifiedAt", "value": "2026-05-08T10:00:00" },
+    { "key": "cutoff", "value": "2024-05-08T00:00:00" },
+    { "key": "holdSeconds", "value": "20" }
+  ]
+}

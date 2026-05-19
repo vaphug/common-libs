@@ -1,2 +1,12 @@
 server:
-  port: 8090
+  port: 8093
+
+common:
+  database:
+    host: localhost
+    port: 5432
+    name: inventory_db
+    schema: public
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    cleanup-retention-years: 2
