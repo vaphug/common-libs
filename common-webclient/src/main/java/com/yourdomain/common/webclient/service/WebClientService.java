@@ -1,6 +1,7 @@
 package com.yourdomain.common.webclient.service;
 
 import com.yourdomain.common.webclient.client.CommonWebClient;
+import com.yourdomain.common.webclient.config.WebClientProperties;
 import com.yourdomain.common.webclient.context.UserContextHelper;
 import com.yourdomain.common.webclient.model.WebClientRequest;
 import java.util.LinkedHashMap;
@@ -14,7 +15,8 @@ public class WebClientService {
     private final CommonWebClient commonWebClient;
     private final UserContextHelper userContextHelper;
 
-    public WebClientService(CommonWebClient commonWebClient, UserContextHelper userContextHelper) {
+    public WebClientService(@Qualifier("webClientProperties") WebClientProperties webClientProperties, WebClient.Builder webClientBuilder,
+        CommonWebClient commonWebClient, UserContextHelper userContextHelper) {
         this.commonWebClient = commonWebClient;
         this.userContextHelper = userContextHelper;
     }

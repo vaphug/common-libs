@@ -13,3 +13,5 @@ include("common-s3file")
 include("common-notification-history")
 include("common-notification-template")
 include("common-notification")
+
+include("common-ngword-check")
